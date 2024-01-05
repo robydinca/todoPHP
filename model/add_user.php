@@ -1,58 +1,86 @@
 <?php
-// Importa la conexión a la base de datos y la clase Users
-require_once "../config/config.php";
-require_once "../controllers/Users.php";
+require_once '../config/config.php';
+require_once '../controllers/Users.php';
+require_once '../controllers/Security.php'; // Asegúrate de incluir la clase Security
 
-// Crea una instancia de la clase Users pasando la conexión como parámetro
-$conexion = new mysqli(HOST, USER, PASSWORD, DB, PORT);
-$users = new Users($conexion);
+$security = new Security(); // Instancia de la clase Security
 
-// Ejemplo de cómo usar los métodos de la clase Users
+if ($_SERVER["REQUEST_METHOD"] == "POST" && $security->hasPermission('admin')) {
+    $conexion = new mysqli(HOST, USER, PASSWORD, DB, PORT);
 
-// Insertar un nuevo usuario
-$newUserData = array(
-    'name' => 'John',
-    'last_name' => 'Doe',
-    'salt' => 'random_salt',
-    'login' => 'johndoe',
-    'password' => 'hashed_password',
-    'role' => 'user'
-);
-$resultInsert = $users->insert($newUserData);
-if ($resultInsert) {
-    echo "Usuario insertado correctamente.";
-} else {
-    echo "Error al insertar el usuario.";
-}
+    if ($conexion->connect_error) {
+        die("Error en la conexión: " . $conexion->connect_error);
+    }
 
-// Obtener información de un usuario específico por su login
-$specificUser = $users->fetchUser('johndoe');
-if ($specificUser) {
-    echo "Información del usuario:";
-    print_r($specificUser);
-} else {
-    echo "Usuario no encontrado.";
-}
+    $name = $_POST['name'];
+    $last_name = $_POST['last_name'];
+    $login = $_POST['login'];
+    $password = $_POST['password'];
+    $role = $_POST['role'];
 
-// Actualizar datos de un usuario
-$userToUpdate = array(
-    'login' => 'johndoe',
-    'name' => 'John Updated',
-    'last_name' => 'Doe Updated',
-    'password' => 'updated_password'
-);
-$resultUpdate = $users->updateUserData($userToUpdate);
-if ($resultUpdate) {
-    echo "Datos del usuario actualizados correctamente.";
-} else {
-    echo "Error al actualizar los datos del usuario.";
-}
+    $users = new Users($conexion);
 
-// Eliminar un usuario
-$resultDelete = $users->delete('johndoe');
-if ($resultDelete) {
-    echo "Usuario eliminado correctamente.";
-} else {
-    echo "Error al eliminar el usuario.";
+    // Hash de la contraseña
+    $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+
+    // Generación de salt (considerando el campo 'salt' de la tabla)
+    $salt = bin2hex(random_bytes(10)); // Cambiar el número de bytes según sea necesario
+
+    // Definir valores predeterminados para los campos 'salt' y 'email'
+    $salt = bin2hex(random_bytes(10));
+    $email = "null"; // Puedes manejar este campo según sea necesario
+
+    $userData = array(
+        'name' => $name,
+        'last_name' => $last_name,
+        'login' => $login,
+        'password' => $passwordHash, // Guardar el hash de la contraseña
+        'role' => $role,
+        'salt' => $salt, // Agregar 'salt' al array de datos
+        'email' => $email // Agregar 'email' al array de datos
+    );
+
+    $insertResult = $users->insert($userData);
+
+    if ($insertResult === TRUE) {
+        echo "Usuario agregado exitosamente.";
+    } else {
+        echo "Error al agregar el usuario: " . $conexion->error;
+    }
+
+    $conexion->close();
+} elseif (!$security->hasPermission('admin')) {
+    echo "Acceso denegado. Debes tener permisos de administrador para acceder a esta página.";
 }
 ?>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Agregar Usuario</title>
+</head>
+<body>
+  <?php if ($security->hasPermission('admin')) : ?>
+    <h2>Agregar Usuario</h2>
+    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+      <label for="name">Nombre:</label>
+      <input type="text" id="name" name="name" required><br><br>
+
+      <label for="last_name">Apellido:</label>
+      <input type="text" id="last_name" name="last_name" required><br><br>
+
+      <label for="login">Nombre de usuario:</label>
+      <input type="text" id="login" name="login" required><br><br>
+
+      <label for="password">Contraseña:</label>
+      <input type="password" id="password" name="password" required><br><br>
+
+      <label for="role">Rol:</label>
+      <input type="text" id="role" name="role"><br><br>
+
+      <input type="submit" value="Agregar Usuario">
+    </form>
+  <?php endif; ?>
+</body>
+</html>

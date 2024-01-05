@@ -1,5 +1,8 @@
 <?php
 require_once "../config/config.php";
+require_once "../controllers/Security.php"; // Asegúrate de incluir la clase Security
+
+$security = new Security(); // Instancia de la clase Security
 
 $conexion = new mysqli(HOST, USER, PASSWORD, DB, PORT);
 
@@ -7,7 +10,7 @@ if ($conexion->connect_errno) {
     die("Error de conexión: " . $conexion->connect_error);
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['id'])) {
+if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['id']) && $security->hasPermission('admin')) {
     $login = $_GET['id'];
     
     // Obtener la información del usuario seleccionado por su ID
@@ -43,6 +46,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['id'])) {
     } else {
         echo "No se encontró ningún usuario con el ID proporcionado.";
     }
+} elseif (!$security->hasPermission('admin')) {
+    echo "Acceso denegado. Debes tener permisos de administrador para acceder a esta página.";
 } else {
     echo "ID de usuario no proporcionado.";
 }

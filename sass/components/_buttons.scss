@@ -1,0 +1,19 @@
+.btn--blue{
+  @include btn($azul, $violeta, $blanco, $blanco);
+}
+
+.btn--orange{
+  @include btn($gradientePrincipal, $gradientePrincipalHover, $blanco, $blanco);
+  border-radius: 31.5px;
+  padding: 17px 38px;
+}
+
+.btn--pink{
+  @include btn($gradienteSecundario, $gradienteSecundarioHover, $blanco, $blanco);
+  
+}
+
+.btn--courses{
+  @include btn(rgba(255, 252, 252,0), $blanco, $rosa, $rosa);
+  padding: 0;
+}

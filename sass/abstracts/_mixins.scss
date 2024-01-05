@@ -1,0 +1,92 @@
+//media queries
+@mixin tablet {
+  @media (min-width: $tablet) {
+    @content;
+  }
+}
+
+@mixin tablet-horizontal {
+  @media (min-width: $tablet-horizontal) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: $desktop) {
+    @content;
+  }
+}
+
+@mixin desktop-xl {
+  @media (min-width: $desktop-xl) {
+    @content;
+  }
+}
+
+//botones
+@mixin btn($color, $color-hover, $color-texto, $color-texto-hover) {
+  background: $color;
+  color: $color-texto;
+  border: none;
+  border-radius: 28px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  width: 167;
+  height: 56px;
+  padding: 14px 30px;
+  line-height: 28px;
+  &:hover {
+    background: $color-hover;
+    color: $color-texto-hover;
+  }
+}
+
+//tipografias
+@mixin tituloXL() {
+  font-size: 56px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+  color: $azul;
+}
+
+@mixin tituloL() {
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+  color: $azul;
+}
+
+@mixin tituloM() {
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 40px;
+  color: $azul;
+}
+
+@mixin tituloS() {
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+  color: $azul;
+}
+
+@mixin bodyM{
+font-size: 18px;
+font-style: normal;
+font-weight: 500;
+line-height: 28px;
+color: $gris;
+}
+
+@mixin bodyS{
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 28px; 
+  color: $gris;
+}

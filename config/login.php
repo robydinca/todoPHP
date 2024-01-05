@@ -24,12 +24,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login']) && isset($_PO
         $user = $resultado->fetch_assoc();
 
         if (password_verify($password, $user['password'])) {
-            $security->login($login, $user['role']); // Utiliza el método login de la clase Security
-            header("Location: ../index.php");
-            exit;
-        } else {
-            echo "user o contraseña incorrectos";
-        }
+          if ($user['role'] === 'admin') {
+              $security->login($login, $user['role']);
+              header("Location: ../views/users_panel.php");
+              exit;
+          } else {
+              $security->login($login, $user['role']);
+              header("Location: ../index.php");
+              exit;
+          }
+      } else {
+          echo "Usuario o contraseña incorrectos";
+      }
     } else {
         echo "user no encontrado";
     }

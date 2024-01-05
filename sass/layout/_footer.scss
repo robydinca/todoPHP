@@ -1,0 +1,10 @@
+footer{
+  display: flex;
+  justify-content: space-between;
+  background-color: $azul;
+  padding: 36px 16px;
+
+  @include desktop (){
+    padding: 36px 200px;
+  }
+}

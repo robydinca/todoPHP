@@ -26,7 +26,7 @@ if (isset($_POST["host"]) && isset($_POST["user"]) && isset($_POST["password"]) 
           login VARCHAR(50) NOT NULL PRIMARY KEY,
           email VARCHAR(150) NOT NULL,
           password VARCHAR(512) NOT NULL,
-          role enum('admin', 'librarian', 'user') NOT NULL
+          role enum('admin', 'user') NOT NULL
       )";
 
         $queries[] = "CREATE TABLE IF NOT EXISTS tasks (

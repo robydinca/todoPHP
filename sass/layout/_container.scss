@@ -1,0 +1,23 @@
+.container {
+  padding-left: 16px;
+  padding-right: 16px;
+  background:$gradienteBlanco;
+  padding-bottom: 80px;
+
+  @include tablet (){
+    padding-left: 38px;
+    padding-right: 38px;
+  }
+
+  @include desktop (){
+    padding-left: 80px;
+    padding-right: 80px;
+  }
+
+  @include desktop-xl (){
+    padding-left: 200px;
+    padding-right: 200px;
+  }
+
+
+}
