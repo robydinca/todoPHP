@@ -1,9 +1,9 @@
 <?php
 require_once '../config/config.php';
 require_once '../controllers/Users.php';
-require_once '../controllers/Security.php'; // Asegúrate de incluir la clase Security
+require_once '../controllers/Security.php'; 
 
-$security = new Security(); // Instancia de la clase Security
+$security = new Security();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && $security->hasPermission('admin')) {
     $conexion = new mysqli(HOST, USER, PASSWORD, DB, PORT);

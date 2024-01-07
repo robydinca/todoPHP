@@ -1,8 +1,8 @@
 <?php
 require_once "../config/config.php";
-require_once "../controllers/Security.php"; // Asegúrate de incluir la clase Security
+require_once "../controllers/Security.php"; 
 
-$security = new Security(); // Instancia de la clase Security
+$security = new Security(); 
 
 $conexion = new mysqli(HOST, USER, PASSWORD, DB, PORT);
 
@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['id']) && $security->hasP
     
     if ($resultado->num_rows === 1) {
         $usuario = $resultado->fetch_assoc();
-        // Aquí empieza el formulario para editar el usuario
+
 ?>
         <!DOCTYPE html>
         <html>
@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['id']) && $security->hasP
         </body>
         </html>
 <?php
-        // Aquí termina el formulario para editar el usuario
+
     } else {
         echo "No se encontró ningún usuario con el ID proporcionado.";
     }
