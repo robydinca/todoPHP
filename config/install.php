@@ -1,21 +1,32 @@
 <?php
+
+/**
+ * Archivo install.php
+ * 
+ * Este archivo es responsable de la instalación inicial de la aplicación. 
+ * Crea el archivo de configuración y las tablas necesarias en la base de datos.
+ */
+
 require_once "ConfigWriter.php";
 require_once "DbConnect.php";
 
+// Verificar si se han enviado los datos del formulario
 if (isset($_POST["host"]) && isset($_POST["user"]) && isset($_POST["password"]) && isset($_POST["nombreBaseDatos"])) {
+    // Recoger los datos del formulario
     $host = $_POST["host"];
     $user = $_POST["user"];
     $password = $_POST["password"];
     $nombreBaseDatos = $_POST["nombreBaseDatos"];
     $puerto = $_POST["puerto"];
 
+    // Crear el archivo de configuración
     $configWriter = new ConfigWriter();
     $createdFile = $configWriter->writeConfigFile($host, $user, $password, $nombreBaseDatos, $puerto);
 
     if ($createdFile) {
         echo "Configuration file created: " . $createdFile;
 
-        // Creación de tablas
+        // Crear las tablas necesarias en la base de datos
         $db = new DbConnect();
 
 
@@ -98,12 +109,12 @@ if (isset($_POST["host"]) && isset($_POST["user"]) && isset($_POST["password"]) 
                 echo "Error creating table: " . $db->getErrorMessage() . "<br>";
             }
         }
-
+        //verificar la conexión
         if (!$db) {
             die("Connection error: Unable to establish connection.");
         } else {
             echo "Connection established successfully.<br>";
-            header ("Location: ./register.php");
+            header("Location: ./register.php");
         }
     }
 }

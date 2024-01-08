@@ -1,0 +1,52 @@
+/* Estilos generales */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+  background-color: #3E3F4E;
+  color: #FFFFFF;
+}
+
+h2 {
+  color: #635FC7;
+}
+
+/* Estilos para la tabla de usuarios */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 20px;
+}
+
+table th, table td {
+  border: 1px solid #2B2C37;
+  padding: 8px;
+  text-align: left;
+}
+
+table th {
+  background-color: #635FC7;
+  color: #FFFFFF;
+}
+
+table tr:nth-child(even) {
+  background-color: #2B2C37;
+}
+
+table tr:hover {
+  background-color: #4F4D91;
+}
+
+/* Estilos para los enlaces de editar y borrar */
+a {
+  color: #635FC7;
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+a:hover {
+  color: #FFFFFF;
+  background-color: #635FC7;
+  padding: 5px;
+  border-radius: 3px;
+}

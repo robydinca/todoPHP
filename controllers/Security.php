@@ -101,6 +101,17 @@ class Security {
     public function verifyAuthenticationToken($token, $storedToken) {
         return hash_equals($storedToken, $token);
     }
+
+    /**
+     * Obtiene el nombre de inicio de sesión del usuario autenticado actualmente.
+     * @return string|null El nombre de inicio de sesión del usuario autenticado, o null si no está autenticado.
+     */
+    public function getCurrentUserLogin() {
+        if ($this->isAuth()) {
+            return $_SESSION['login'];
+        }
+        return null;
+    }
 }
 
 ?>
